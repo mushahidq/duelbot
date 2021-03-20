@@ -10,9 +10,11 @@ module.exports = {
             return message.channel.send("You need to specify some text to convert");
         }
         const query = querystring.stringify({ term: args.join(' ') });
-        const { _, content } = await fetch(`https://api.funtranslations.com/translate/pirate.json?text=${query}`).then(response => response.json());
-        message.channel.send(content.translated).catch(error => {
-            console.log(error);
-        });
+        const res = await fetch(`https://api.funtranslations.com/translate/pirate.json?text=${query}`).then(response => response.json());
+        if(!res.content){
+            console.log(res);
+            return message.channel.send('there was an error trying to execute that command!');
+        }
+        message.channel.send(res.content.translated);
     }
 }

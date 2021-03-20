@@ -23,18 +23,17 @@ function gotMessage(msg) {
 
     const args = msg.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
-    if (msg.channel.id == channelid && command === "user-info") {
-        client.commands.get('user-info').execute(msg, args);
-    } else if (msg.channel.id == channelid && command === "help") {
-        client.commands.get('help').execute(msg, args);
-    } else if (msg.channel.id == channelid && command === "duel") {
-        client.commands.get('duel').execute(msg, args);
-    } else if (msg.channel.id == channelid && command === "yoda-translate") {
-        client.commands.get('yoda-translate').execute(msg, args);
-    } else if (msg.channel.id == channelid && command === "pirate-translate") {
-        client.commands.get('pirate-translate').execute(msg, args);
-    } else if (msg.channel.id == channelid && command === "shakespeare-translate") {
-        client.commands.get('shakespeare-translate').execute(msg, args);
+    if(msg.channel.id == channelid) {
+        if(!client.commands.has(command)){
+            return msg.channel.send(`${command} command not found\nUse \`!help\` for help`);
+        }
+
+        try {
+            client.commands.get(command).execute(msg, args);
+        } catch(error) {
+            console.error(error);
+            msg.channel.send('there was an error trying to execute that command!');
+        }
     }
 }
 
