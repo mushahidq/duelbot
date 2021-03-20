@@ -1,0 +1,11 @@
+{
+  "name": "duelbot",
+  "version": "1.0.0",
+  "description": "a quiz bot for discord with a twist",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mushahidq",
+  "license": "MIT"
+}
