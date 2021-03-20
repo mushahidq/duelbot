@@ -1,7 +1,16 @@
 require("dotenv").config()
+const fs = require('fs')
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const { prefix, channelid } = require('./config.json')
+
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -14,28 +23,7 @@ function gotMessage(msg) {
 
     const args = msg.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
-    if (msg.channel.id == channelid && command === "ping") {
-        msg.channel.send("Pong");
-    } else if (msg.channel.id == channelid && command === "beep") {
-        msg.channel.send("Boop");
-    } else if (msg.channel.id == channelid && command === "server") {
-        msg.channel.send(`This server's name is: ${msg.guild.name}\nTotal members: ${msg.guild.memberCount}`);
-    } else if (msg.channel.id == channelid && command === "user-info") {
-        msg.channel.send(`Your username: ${msg.author.username}\nYour ID: ${msg.author.id}`);
-    } else if (msg.channel.id == channelid && command === "args-info") {
-        if (!args.length) {
-            return msg.channel.send(`You didn't provide any arguments, ${message.author}!`);
-        }
-        msg.channel.send(`Command name: ${command}\nArguments: ${args}`);
-    } else if (msg.channel.id == channelid && command === "duel") {
-        if(msg.mentions.users.size) {
-            const taggedUser = msg.mentions.users.first();
-            msg.channel.send(`${taggedUser}, you have been challenged to a duel by ${msg.author}.\nReact with your response.`);
-        }
-        else {
-            msg.channel.send(`${msg.author} You need to tag the user you want to challenge to a duel.`);
-        }
-    }
+    
 }
 
 client.login(process.env.TOKEN)
