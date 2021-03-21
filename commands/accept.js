@@ -1,6 +1,5 @@
 const { prefix, channelid } = require('../config.json')
 const fetch = require('node-fetch')
-const querystring = require('querystring')
 
 module.exports = {
     name: 'accept',
@@ -14,16 +13,16 @@ module.exports = {
             var i = 0;
             message.channel.send('The statements are:');
             for (result of response.results) {
-                quiz.questions[i] = result.question;
+                quiz.questions[i] = decodeURI(result.question);
                 if (result.correct_answer === 'True') {
-                    quiz.answers[i] = querystring.stringify(result.question.slice(0, -1) + " is true.");
+                    quiz.answers[i] = decodeURI(result.question.slice(0, -1) + " is true.");
                 } else if (result.correct_answer == 'False') {
-                    quiz.answers[i] = querystring.stringify(result.question.slice(0, -1) + " is false.");
+                    quiz.answers[i] = decodeURI(result.question.slice(0, -1) + " is false.");
                 }
                 message.channel.send(`\n${quiz.questions[i]}`);
+                console.log(quiz.answers[i]);
                 i++;
             }
-            console.log(quiz.answers);
         }
         else {
             message.channel.send(`${message.author} no one has challenged you to a duel as of now.`);
