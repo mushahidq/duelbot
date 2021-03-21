@@ -4,7 +4,7 @@ module.exports ={
     guildOnly: true,
     execute(message, args, quiz) {
         if(quiz.isgoingon) {
-            if (message.author.id == quiz.particpant1.id || message.author.id == quiz.particpant2.id) {
+            if (message.author.id == quiz.participant1.id || message.author.id == quiz.participant2.id) {
                 const answer = args.join(' ');
                 if (answer == quiz.answers[1] && !quiz.answered[1]){
                     if (message.author == quiz.particpant1) {

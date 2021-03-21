@@ -2,7 +2,7 @@ require("dotenv").config()
 const fs = require('fs')
 const Discord = require("discord.js")
 const client = new Discord.Client()
-const { prefix, channelid } = require('./config.json')
+const { prefix, channelid, funtranslations } = require('./config.json')
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -34,7 +34,7 @@ function gotMessage(msg) {
 
     const args = msg.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-    if(msg.channel.id == channelid) {
+    if(msg.channel.id == channelid || msg.channel.id == funtranslations) {
         if(!client.commands.has(commandName)){
             return msg.channel.send(`${commandName} command not found\nUse \`!help\` for help`);
         }

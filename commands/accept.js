@@ -1,12 +1,13 @@
 const { prefix, channelid } = require('../config.json')
 const fetch = require('node-fetch')
+const querystring = require('querystring')
 
 module.exports = {
     name: 'accept',
     despcription: "Accept someone's duel challenge",
     guildOnly: true,
     execute: async (message, args, quiz) => {
-        if(quiz.duel) {
+        if(quiz.duel && message.author.id == quiz.participant2.id) {
             message.channel.send(`${message.author} has accepted ${quiz.participant1}'s challenge.\nThe duel will begin in 10 seconds.\nThere will be three questions and first person to answer two correctly wins the duel.\nThe questions are of true/false type but you'll have to type out the entire sentence in the answer, for example "\`!first The statement.. is false.\`".\nUse \`${prefix}first\`, \`${prefix}second\` and \`${prefix}third\` to answer first second and third questions respectively.\nThe quiz will end automatically after 5 mins.`);
             quiz.isgoingon = true;
             const response = await fetch('https://opentdb.com/api.php?amount=3&type=boolean').then(response => response.json());
@@ -15,9 +16,9 @@ module.exports = {
             for (result of response.results) {
                 quiz.questions[i] = result.question;
                 if (result.correct_answer === 'True') {
-                    quiz.answers[i] = result.question.slice(0, -1) + " is true.";
+                    quiz.answers[i] = querystring.stringify(result.question.slice(0, -1) + " is true.");
                 } else if (result.correct_answer == 'False') {
-                    quiz.answers[i] = result.question.slice(0, -1) + " is false.";
+                    quiz.answers[i] = querystring.stringify(result.question.slice(0, -1) + " is false.");
                 }
                 message.channel.send(`\n${quiz.questions[i]}`);
                 i++;
