@@ -1,5 +1,5 @@
 module.exports ={
-    name: 'thirs',
+    name: 'third',
     despcription: "Respond to the third question",
     guildOnly: true,
     execute(message, args, quiz) {
