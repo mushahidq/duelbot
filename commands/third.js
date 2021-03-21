@@ -18,6 +18,18 @@ module.exports ={
                     message.channel.send(`${message.author} that answer is wrong or that question has already been answered.`);
                 }
             }
+            if (quiz.scoreboard[0] == 2) {
+                message.channel.send(`${quiz.participant1} has won this duel.\n${quiz.participant2} better luck next time.`)
+            } else if (quiz.scoreboard[1] == 2) {
+                message.channel.send(`${quiz.participant2} has won this duel.\n${quiz.participant1} better luck next time.`)
+            }
+            quiz.participant1 = '';
+            quiz.participant2 = '';
+            quiz.duel = false;
+            quiz.isgoingon = false;
+            quiz.questions = [];
+            quiz.scoreboard = [0, 0];
+            quiz.answered = [false, false, false];
         }
         else {
             message.channel.send(`${message.author}, there is no ongoing duel.`);

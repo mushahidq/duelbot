@@ -30,12 +30,19 @@ module.exports = {
         }
         setTimeout(() => {
             if(quiz.scoreboard[0] == quiz.scoreboard[1]) {
-                message.channel.send(`Both the participants scored ${quiz.scoreboard[0]} points.\nIt's a tie.`)
+                message.channel.send(`Both the participants scored ${quiz.scoreboard[0]} points.\nIt's a tie.`);
             } else if (quiz.scoreboard[0] > quiz.scoreboard[1]) {
                 message.channel.send(`${quiz.participant1} has won this duel.\n${quiz.participant2} better luck next time.`)
             } else if (quiz.scoreboard[0] < quiz.scoreboard[1]) {
                 message.channel.send(`${quiz.participant2} has won this duel.\n${quiz.participant1} better luck next time.`)
             }
+            quiz.participant1 = '';
+            quiz.participant2 = '';
+            quiz.duel = false;
+            quiz.isgoingon = false;
+            quiz.questions = [];
+            quiz.scoreboard = [0, 0];
+            quiz.answered = [false, false, false];
         }, 300000)
     }
 }
