@@ -12,12 +12,10 @@ var quiz = {
     isgoingon: false,
     participant1: "",
     participant2: "",
-    question1: "",
-    question2: "",
-    question3: "",
-    answer1: "",
-    answer2: "",
-    answer3: ""
+    questions: [],
+    answers: [],
+    scoreboard: [0, 0],
+    answered: [false, false, false]
 }
 
 for (const file of commandFiles) {
