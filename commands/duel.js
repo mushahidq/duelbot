@@ -16,7 +16,11 @@ module.exports = {
                     message.channel.send(`${taggedUser} has not accepted the challenge in the required time`);
                     quiz.participant1 = '';
                     quiz.participant2 = '';
-                    quiz.duel = '';
+                    quiz.duel = false;
+                    quiz.isgoingon = false;
+                    quiz.questions = [];
+                    quiz.scoreboard = [0, 0];
+                    quiz.answered = [false, false, false];
                 }
             }, 300000)
         }
