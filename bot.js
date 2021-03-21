@@ -7,6 +7,19 @@ const { prefix, channelid } = require('./config.json')
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+var quiz = {
+    duel: false,
+    isgoingon: false,
+    participant1: "",
+    participant2: "",
+    question1: "",
+    question2: "",
+    question3: "",
+    answer1: "",
+    answer2: "",
+    answer3: ""
+}
+
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
@@ -22,14 +35,15 @@ function gotMessage(msg) {
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;
 
     const args = msg.content.slice(prefix.length).trim().split(/ +/);
-    const command = args.shift().toLowerCase();
+    const commandName = args.shift().toLowerCase();
     if(msg.channel.id == channelid) {
-        if(!client.commands.has(command)){
-            return msg.channel.send(`${command} command not found\nUse \`!help\` for help`);
+        if(!client.commands.has(commandName)){
+            return msg.channel.send(`${commandName} command not found\nUse \`!help\` for help`);
         }
 
+        const command = client.commands.get(commandName);
         try {
-            client.commands.get(command).execute(msg, args);
+            command.execute(msg, args, quiz);
         } catch(error) {
             console.error(error);
             msg.channel.send('there was an error trying to execute that command!');
